@@ -1,28 +1,26 @@
-# Exercice 2 — Réparer un test unitaire
+# Exercice 3 — Remettre la pipeline dans le bon ordre
 
 ## Contexte
 
-La pipeline CI passe le job `format-lint` mais échoue sur le job `tests`.
+La pipeline CI s'exécute sans erreur apparente... mais quelque chose ne va pas dans l'ordre des jobs.
 
 ## Objectif
 
-1. Lancer la CI localement : `act -j tests`
-2. Lire les logs pour identifier **quel test** échoue et **pourquoi**
-3. Corriger le test sans modifier le code de production
-4. Vérifier que `act -j tests` repasse au vert
+1. Ouvrir le fichier `.github/workflows/ci.yml`
+2. Analyser l'ordre d'exécution des jobs et leurs dépendances (`needs`)
+3. Identifier le problème sans forcément lancer la CI
+4. Corriger le workflow pour respecter une stratégie **fail-fast** correcte
+5. Vérifier avec `act` que la pipeline s'exécute dans le bon ordre
 
 ## Ce que vous devez comprendre
 
-- Dans quelle spec le test échoue-t-il ?
-- Quelle est la différence entre la valeur attendue et la valeur réelle ?
-- Pourquoi les tests de service utilisent-ils ici une base de données **en mémoire** plutôt qu'un mock objet ?
+- Qu'est-ce que la stratégie **fail-fast** ?
+- Pourquoi le **build** ne devrait-il pas s'exécuter avant les **tests** ?
+- Quel est le coût d'un build inutile si les tests échouent après ?
+- Comment lire le graphe d'exécution d'une pipeline à partir des `needs` ?
 
-## Commandes utiles
+## Rappel de l'ordre cible
 
-```bash
-# Lancer les tests et voir les erreurs
-npm test
-
-# Lancer les tests avec couverture
-npm run test:ci
+```
+install → format-lint → tests → build → security
 ```
