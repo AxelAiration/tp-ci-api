@@ -1,29 +1,38 @@
-# Exercice 4 — Lire et comprendre les logs CI
+# Exercice 5 — Stabiliser une pipeline en échec multiple
 
 ## Contexte
 
-La pipeline CI échoue sur le job `format-lint`. Le problème est subtil et ne saute pas aux yeux en lisant le code.
+Cette branche comporte **plusieurs problèmes** introduits en même temps. La pipeline échoue à plusieurs endroits.
 
 ## Objectif
 
-1. Lancer la CI localement : `act -j format-lint`
-2. **Lire attentivement** les logs produits par le job
-3. Identifier l'outil, le fichier, la ligne et la règle qui déclenchent l'erreur
-4. Comprendre *pourquoi* cette règle existe en équipe
-5. Corriger le problème et vérifier que la pipeline repasse au vert
+1. Lancer la CI complète : `act`
+2. Identifier **tous les problèmes** présents dans la pipeline
+3. Les corriger **un à un**
+4. Vérifier que la pipeline complète repasse au vert
+
+## Indices
+
+Il y a **deux types de problèmes** dans cette branche :
+- Un problème dans le **code source** (détecté par un outil d'analyse statique)
+- Un problème dans la **configuration de la pipeline** elle-même (dans le fichier YAML)
 
 ## Ce que vous devez comprendre
 
-- Quelle règle ESLint/SonarJS est violée ?
-- Quel en est le sens métier (pourquoi cette règle est-elle utile) ?
-- Comment s'assurer qu'un commentaire temporaire n'arrive jamais en production ?
+- Comment prioriser la correction de plusieurs erreurs CI en même temps ?
+- Pourquoi est-il important que tous les jobs CI aient les bonnes dépendances (`needs`) ?
+- Quelle est la différence entre un job qui *échoue* et un job qui *n'aurait pas dû se lancer* ?
 
 ## Commandes utiles
 
 ```bash
-# Voir les erreurs de lint directement
+# Analyser le code
 npm run lint
 
-# Lancer uniquement le job format-lint
+# Lancer toute la pipeline localement
+act
+
+# Lancer un job spécifique
 act -j format-lint
+act -j security
 ```
