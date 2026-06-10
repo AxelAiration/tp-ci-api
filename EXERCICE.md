@@ -1,26 +1,29 @@
-# Exercice 3 — Remettre la pipeline dans le bon ordre
+# Exercice 4 — Lire et comprendre les logs CI
 
 ## Contexte
 
-La pipeline CI s'exécute sans erreur apparente... mais quelque chose ne va pas dans l'ordre des jobs.
+La pipeline CI échoue sur le job `format-lint`. Le problème est subtil et ne saute pas aux yeux en lisant le code.
 
 ## Objectif
 
-1. Ouvrir le fichier `.github/workflows/ci.yml`
-2. Analyser l'ordre d'exécution des jobs et leurs dépendances (`needs`)
-3. Identifier le problème sans forcément lancer la CI
-4. Corriger le workflow pour respecter une stratégie **fail-fast** correcte
-5. Vérifier avec `act` que la pipeline s'exécute dans le bon ordre
+1. Lancer la CI localement : `act -j format-lint`
+2. **Lire attentivement** les logs produits par le job
+3. Identifier l'outil, le fichier, la ligne et la règle qui déclenchent l'erreur
+4. Comprendre *pourquoi* cette règle existe en équipe
+5. Corriger le problème et vérifier que la pipeline repasse au vert
 
 ## Ce que vous devez comprendre
 
-- Qu'est-ce que la stratégie **fail-fast** ?
-- Pourquoi le **build** ne devrait-il pas s'exécuter avant les **tests** ?
-- Quel est le coût d'un build inutile si les tests échouent après ?
-- Comment lire le graphe d'exécution d'une pipeline à partir des `needs` ?
+- Quelle règle ESLint/SonarJS est violée ?
+- Quel en est le sens métier (pourquoi cette règle est-elle utile) ?
+- Comment s'assurer qu'un commentaire temporaire n'arrive jamais en production ?
 
-## Rappel de l'ordre cible
+## Commandes utiles
 
-```
-install → format-lint → tests → build → security
+```bash
+# Voir les erreurs de lint directement
+npm run lint
+
+# Lancer uniquement le job format-lint
+act -j format-lint
 ```
