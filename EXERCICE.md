@@ -1,28 +1,28 @@
-# Exercice 1 — Corriger une erreur de formatage
+# Exercice 2 — Réparer un test unitaire
 
 ## Contexte
 
-La pipeline CI échoue dès le job `format-lint`.
+La pipeline CI passe le job `format-lint` mais échoue sur le job `tests`.
 
 ## Objectif
 
-1. Lancer la CI localement : `act -j format-lint`
-2. Lire les logs et identifier **quel fichier** est mal formaté
-3. Corriger le problème
-4. Vérifier que `act -j format-lint` repasse au vert
+1. Lancer la CI localement : `act -j tests`
+2. Lire les logs pour identifier **quel test** échoue et **pourquoi**
+3. Corriger le test sans modifier le code de production
+4. Vérifier que `act -j tests` repasse au vert
 
 ## Ce que vous devez comprendre
 
-- Quel outil détecte les problèmes de formatage dans cette pipeline ?
-- À quelle étape (step) précise la pipeline s'arrête-t-elle ?
-- Comment corriger ce type d'erreur **sans lire le code ligne par ligne** ?
+- Dans quelle spec le test échoue-t-il ?
+- Quelle est la différence entre la valeur attendue et la valeur réelle ?
+- Pourquoi les tests de service utilisent-ils ici une base de données **en mémoire** plutôt qu'un mock objet ?
 
 ## Commandes utiles
 
 ```bash
-# Voir les erreurs de formatage
-npm run format:check
+# Lancer les tests et voir les erreurs
+npm test
 
-# Corriger automatiquement le formatage
-npm run format
+# Lancer les tests avec couverture
+npm run test:ci
 ```
